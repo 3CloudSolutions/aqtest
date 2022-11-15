@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <title>Proactive Personality Scale</title>
+
+    <!-- CSS -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,600"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Montserrat:300"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
+    />
+
+    <style>
+      html {
+        position: relative;
+        min-height: 100%;
+      }
+
+      body {
+        margin-bottom: 60px; /* Margin bottom by footer height */
+      }
+
+      .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px; /* Set the fixed height of the footer here */
+        line-height: 60px; /* Vertically center the text there */
+        background-color: #f5f5f5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <div class="container-xl">
+        <a class="navbar-brand" href="https://3cloudsolutions.com/">
+          <img
+            style="height: 50px"
+            src="https://3cloudsolutions.com/wp-content/uploads/2021/07/logo-3cloud.svg"
+          />
+        </a>
+      </div>
+    </nav>
+    <main class="container">
+      <div class="row align-items-md-stretch">
+        <div class="col">
+          <div class="table-responsive rounded-3">
+            <form id="surveyForm">
+              <table
+                class="table table-striped table-hover table-bordered align-middle"
+                id="survey"
+              >
+                <thead class="table-dark primary">
+                  <tr>
+                    <th scope="col" style="text-align: left">
+                      Proactive Personality Scale<br />
+                      (Bateman &amp; Crant, 1993)
+                    </th>
+                    <th style="text-align: center">Strongly Agree</th>
+                    <th style="text-align: center">Agree</th>
+                    <th style="text-align: center">Neutral</th>
+                    <th style="text-align: center">Disagree</th>
+                    <th style="text-align: center">Strongly Disagree</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr id="reverseScoringNote" style="display: none">
+                    <td colspan="6">* reverse scoring</td>
+                  </tr>
+                  <tr style="font-weight: bold; font-size: 18pt">
+                    <td colspan="6">Score: <span id="score"></span></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button type="button" class="btn btn-primary" id="calculateBtn">
+            Calculate My Score
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="errorModal"
+        tabindex="-1"
+        aria-labelledby="errorModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="errorModalLabel">
+                Missing Responses
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="alert alert-danger" role="alert">
+                Please fill out all responses.
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container text-center">
+        <span class="text-muted"
+          >Copyright &copy; 2022 3Cloud Solutions, LLC</span
+        >
+      </div>
+    </footer>
+
+    <!-- Javascript -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      var questions = [
+        {
+          isReversed: false,
+          question:
+            "I'm constantly on the lookout for new ways to improve my life",
+        },
+        {
+          isReversed: false,
+          question:
+            "I feel driven to make a difference in my community, and maybe the world",
+        },
+        {
+          isReversed: true,
+          question:
+            "I tend to let others take initiative to start new projects",
+        },
+        {
+          isReversed: false,
+          question:
+            "Wherever I have been, I have been a powerful force for constructive change",
+        },
+        {
+          isReversed: false,
+          question: "I enjoy facing and overcoming obstacles to my ideas",
+        },
+        {
+          isReversed: false,
+          question:
+            "Nothing is more exciting than seeing my ideas turn into reality",
+        },
+        {
+          isReversed: false,
+          question: "If I see something I don't like, I fix it",
+        },
+        {
+          isReversed: false,
+          question:
+            "No matter what the odds, if I believe in something I will make it happen",
+        },
+        {
+          isReversed: false,
+          question:
+            "I love being a champion of my ideas, even against others' opposition",
+        },
+        { isReversed: false, question: "I excel at identifying opportunities" },
+        {
+          isReversed: false,
+          question: "I am always looking for better ways to do things",
+        },
+        {
+          isReversed: false,
+          question:
+            "If I believe in an idea, no obstacle will prevent me from making it happen",
+        },
+        { isReversed: false, question: "I love to challenge the status quo" },
+        {
+          isReversed: false,
+          question: "When I have a problem, I tackle it head-on",
+        },
+        {
+          isReversed: false,
+          question: "I am great at turning problems into opportunities",
+        },
+        {
+          isReversed: false,
+          question: "I can spot a good opportunity long before others can",
+        },
+        {
+          isReversed: false,
+          question: "If I see someone in trouble, I help out in any way I can",
+        },
+      ];
+
+      if (questions.some((x) => x.isReversed)) {
+        //document.querySelector("#reverseScoringNote").style.display = "";
+      }
+
+      var scoreOptions = [
+        { value: 5 },
+        { value: 4 },
+        { value: 3 },
+        { value: 2 },
+        { value: 1 },
+      ];
+      let tbody = document.querySelector("#survey").querySelector("tbody");
+      questions.forEach(function (question, questionIndex) {
+        let row = tbody.appendChild(document.createElement("tr"));
+        let cell = row.appendChild(document.createElement("td"));
+        cell.innerText = `${questionIndex + 1}. ${question.question}${
+          question.isReversed ? "" : ""
+        }`;
+        let questionName = `question${questionIndex}`;
+
+        scoreOptions.forEach(function (scoreOption, scoreIndex) {
+          cell = row.appendChild(document.createElement("td"));
+          cell.style = "text-align:center";
+          cell.innerHTML += `<input class="form-check-input" type="radio" name="${questionName}" id="${questionName}-option1" value="${
+            question.isReversed
+              ? scoreOptions.length - scoreOption.value + 1
+              : scoreOption.value
+          }" data-type="response">`;
+        });
+      });
+
+      let form = document.querySelector("#surveyForm");
+
+      let LookupScore = function (score) {
+        if (score >= 61) return "High Adaptability";
+        if (score >= 40) return "Medium Adaptability";
+        return "Low Adaptability";
+      };
+
+      let errorModal = new bootstrap.Modal(
+        document.querySelector("#errorModal")
+      );
+
+      let calcButton = document.querySelector("#calculateBtn");
+      calcButton.addEventListener("click", (event) => {
+        let responseRadios = Array.prototype.slice.call(
+          document.querySelectorAll("[data-type='response']")
+        );
+        let responses = [...new Set(responseRadios.map((x) => x.name))];
+        let total = 0;
+        let areAllAnswered = true;
+        responses.forEach(function (response, idx) {
+          let value = form.elements[response].value;
+          let containingRow = form.elements[response][0].closest("tr");
+          if (!value) {
+            areAllAnswered = false;
+            containingRow.style.color = "red";
+          } else {
+            total += parseInt(value);
+            containingRow.style.color = "";
+          }
+        });
+        if (areAllAnswered) {
+          document.querySelector("#score").innerText = `${total} (${LookupScore(
+            total
+          )})`;
+        } else {
+          errorModal.show();
+        }
+      });
+    </script>
+  </body>
+</html>
